@@ -15,7 +15,14 @@ class ListingsController < ApplicationController
 
     def create 
         listing = Listing.create(listing_params)
-        render json: listing
+        if listing.valid?
+            render json: listing
+        else
+            flash[:errors] = listing.errors.full_messages
+            redirect_to new_listing_path
+
+        end
+        # render json: listing
     end
 
     def update
